@@ -27,7 +27,8 @@ plotCurve_line_logy_logx3_single <- function(s, theta, index = nrow(s)){
         #   #      ylim(min(y), max(y))
         
         plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "x", ylab = "Objective Value", 
-             xlab = "FEs", pch = 20, cex = 1, col = "blue")
+             xlab = "FEs", pch = 20, cex = 1, col = "blue", 
+             ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
         grid()
         
         

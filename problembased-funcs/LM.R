@@ -25,9 +25,11 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
         y = yData  
         
         
+        y <- abs(y)
         if(which(y == 0) %>% length() != 0){
             y[which(y == 0)] = min(abs(y[-which(y == 0)]))/2
         }
+        
         # y <- abs(y)
         # if(min(y) <= 0){
         #         yy= y
@@ -48,13 +50,12 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                         datalist  = list(y=y,x=x)
                         fit = nlsLM(model$formula,data =datalist,start = model$nlsstart(startlist),
                                     control = list(maxiter = 100),
-                                    weights = (1/abs(y- min(y) + 0.1))
+                                    weights = (1/abs(y))
+                        #            weights = (1/abs(y- min(y) + 0.1))
                                     )
                         nls.res$par = as.vector(coef(fit))
-                      #  cat(nls.res$par)
                         pred_y <- predict(fit, data.frame(fixxData)) %>% as.vector()
                         nls.res$residual = xyRMSE(fixyData, pred_y)
-                       # cat(nls.res$residual, "\n")
                 },error = function(e){
                 })
                 
@@ -85,7 +86,6 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                 
                 for(pp in 1:model$iter){
                         
-           #         print(max(yData))
                         initialPara <- model$initFunc(xData,yData)
                         nls.res$par =  initialPara
                         
@@ -98,7 +98,8 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                                             start = model$nlsstart(startlist),
                                             upper = c(+Inf,30*max(yData),+Inf,+Inf),
                                             control = list(maxiter = 100),
-                                            weights = (1/y)
+                                            weights = (1/abs(y))
+                                       #     weights = (1/y)
                                             )
                                 nls.res$par = as.vector(coef(fit))
                               #  cat("nls.res$par: ", nls.res$par, "\n")
@@ -110,17 +111,13 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                         
                         if(is.null(nls.res$par))  nls.res$par <- rep(0,model$nParameters)
                         
-                        
                         if(nls.res$residual < temp.res$residual ){ #update temp.res
                                 temp.res$residual  = nls.res$residual
                                 temp.res$par = nls.res$par
                         }
                         
-                    #    cat("model$flag * nls.res$par[2]: ", model$flag,  " ",    nls.res$par, "\n")
-                        
+                        #if not satisfy for up-bound limits setting break
                         if(model$flag * nls.res$par[2]<=0) next
-                        
-                        
                         
                         if(nls.res$residual < slmres$residual ){ #update slmres.res
                                 slmres$residual  = nls.res$residual
@@ -147,12 +144,13 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                                             start = model$nlsstart(startlist),
                                             upper = c(+Inf,30*max(yData),+Inf,+Inf),
                                             control = list(maxiter = 100),
-                                            weights = (1/(y-min(y) + 0.1))
+                                            weights = (1/abs(y))
+                                #            weights = (1/(y-min(y) + 0.1))
                                 )
+                                
                                 nls.res$par = as.vector(coef(fit))
                                 library(dplyr)
                                 pred_y <- predict(fit, data.frame(fixxData)) %>% as.vector()
-                                
                                 nls.res$residual = xyRMSE(fixyData, pred_y)
                                 
                                 
@@ -190,9 +188,9 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                                 datalist  = list(y=y,x=x)
                                 fit = nlsLM(model$formula,data =datalist,start = model$nlsstart(startlist), 
                                             upper = c(+Inf,30*max(yData),+Inf,+Inf), 
-                                            #           lower = c(-Inf,0,-Inf,0),
                                             control = list(maxiter = 100), 
-                                            weights = (1/(y-min(y) + 0.1))
+                                            weights = (1/abs(y))
+                                    #        weights = (1/(y-min(y) + 0.1))
                                             )
                                 nls.res$par = as.vector(coef(fit))
                                 pred_y <- predict(fit, data.frame(fixxData)) %>% as.vector()
@@ -214,11 +212,10 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                 }
         }
         
-        
-        if(slmres$residual >= 10000000){ # all fitting try fails, choose the old best parameters, but residual has to be 1000000
+        # all fitting try fails, choose the old best parameters, but residual has to be 1000000
+        if(slmres$residual >= 10000000){ 
                 slmres$residual  = temp.res$residual
                 slmres$par = temp.res$par
-             #   print(slmres)
         }
         
         return (slmres)
