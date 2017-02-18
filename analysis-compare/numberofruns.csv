@@ -1,0 +1,8 @@
+"","10","100","150","200","250","50"
+"logisticModelpositive",126,0,0,0,0,0
+"decayModelpositive",126,0,0,0,0,0
+"decayModelpasitive",121,3,1,1,0,0
+"gompertzModelpositive",124,1,0,1,0,0
+"gompertzModelpasitive",123,3,0,0,0,0
+"expLinearModelpositive",1,16,21,36,42,10
+"expLinearModelpasitive",4,23,17,29,44,9

@@ -1,0 +1,5 @@
+"model","svm.residuals"
+"logisticModelpositive","0.820833333333333"
+"expLinearModelpositive","0.781666666666667"
+"decayModelpositive","0.795833333333333"
+"decayModelnegative","0.831666666666667"

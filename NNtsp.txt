@@ -1,0 +1,39 @@
+??: ??'--vanilila'?????
+
+
+载入程辑包：‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Time difference of 0.7572415 secs
+NN : 
+tsp:
+------------------------------------------------------------------------------
+data.table + dplyr code now lives in dtplyr.
+Please library(dtplyr)!
+------------------------------------------------------------------------------
+
+Attaching package: ‘data.table’
+
+The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+Tsp Problem: 
+iter:  20  volume:  10 
+maxiter:  50 
+[1] "ok"
+
+Attaching package: ‘gridExtra’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+Saving 7 x 7 in image

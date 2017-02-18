@@ -1,0 +1,5 @@
+"model","residuals"
+"logisticModelpositive","0.818333333333333"
+"expLinearModelpositive","0.743333333333333"
+"decayModelpositive","0.808333333333333"
+"decayModelnegative","0.805"
