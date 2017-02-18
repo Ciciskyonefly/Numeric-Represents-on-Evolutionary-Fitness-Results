@@ -1,0 +1,13 @@
+"ALGORITHM","Success_Instance_Num"
+"holtschulte2013_ga100",84
+"holtschulte2013_hill",94
+"hutter2013_CMAES",106
+"liao2013_IPOP",80
+"liao2013_IPOP-500",77
+"liao2013_IPOP-tany",77
+"liao2013_IPOP-texp",78
+"P-DCN",63
+"pal2013_DE",74
+"pal2013_fmincon",79
+"pal2013_HMLSL",82
+"pal2013_simplex",91

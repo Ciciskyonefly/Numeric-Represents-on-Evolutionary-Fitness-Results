@@ -1,0 +1,30 @@
+??: ??'--vanilila'?????
+
+
+载入程辑包：‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Time difference of 1.886498 secs
+NN : 
+maxsat: 
+------------------------------------------------------------------------------
+data.table + dplyr code now lives in dtplyr.
+Please library(dtplyr)!
+------------------------------------------------------------------------------
+
+Attaching package: ‘data.table’
+
+The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+Maxsat Problem: 
+iter:  20  volume:  10 
+maxiter:  50 
