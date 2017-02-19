@@ -52,7 +52,7 @@ xyRMSE <- function(y, pred.y) {
         if( which(y == 0)%>% length() != 0 )
                 y[which(y == 0)] = min(abs(y[-which(y == 0)]))/2
         
-        eva.residuals <- sum(square.residuals/(y - min(y) + 0.1))/length(y)
+        eva.residuals <- sum(square.residuals/(y))/length(y)
         return (eva.residuals)
 }
 

@@ -153,7 +153,6 @@ nlsSolverSingleModel <- function(s, model, xData, yData){
                                 pred_y <- predict(fit, data.frame(fixxData)) %>% as.vector()
                                 nls.res$residual = xyRMSE(fixyData, pred_y)
                                 
-                                
                         },error = function(e){
                         })
 

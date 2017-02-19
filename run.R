@@ -5,8 +5,7 @@ source("./call_LM.R")
 start.time = Sys.time()
 
 list_model = list(
-                    expLinearModelpositive
-                    ,expLinearModelnegative
+                    expLinearModelpositive, expLinearModelnegative
                     ,logisticModelpositive
                     ,decayModelpositive, decayModelnegative
                     ,gompertzModelpositive, gompertzModelnegative
@@ -18,8 +17,8 @@ list_model = list(
 volume = c(100)
 iter = c(10)
 
-maxTrain <- c(10, 50)
-maxTest <- c(10000)
+maxTrain <- c(50)
+maxTest <- c(100)
 
 #RunNN(PRE_OR_NOT = "not", problem = "bbob", maxTrain = maxTrain, maxTest = maxTest)
 
