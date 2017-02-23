@@ -14,6 +14,7 @@ maxiter = 50
 
 
 
+
 file.path = "./modelresults/NN.maxsat.pre/maxTrain-maxTest/"
 percent.filenames = list.files(file.path)
 

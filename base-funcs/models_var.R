@@ -29,10 +29,6 @@ logisticModelFunction <-  function(modelParams, xData) {
 }
 
 
-#logisticModelFunction <- function(modelParams,xData){
-#        # Three parameters function
-#}
-
 
 gompertzModelFunction <-  function(modelParams, xData) {
         modelParams[1]+ modelParams[2]*exp(modelParams[3]*exp(xData*modelParams[4])) 
@@ -52,67 +48,67 @@ expLinearModelFunction <- function(modelParams,xData){
 
 
 
-logisticModelpositive <- NULL
-logisticModelpositive$name <- 'logisticModelpositive'
-logisticModelpositive$modelFunction <- logisticModelFunction
-logisticModelpositive$nParameters <- 4
-logisticModelpositive$formula <- y ~ a + b/(1+exp(c*log(x) + d))
-logisticModelpositive$plotFunction <- plotCurve_exp_3_single
-logisticModelpositive$logX <-  FALSE
-logisticModelpositive$initFunc <- function(xData,yData){
+LGMP <- NULL
+LGMP$name <- 'LGMP'
+LGMP$modelFunction <- logisticModelFunction
+LGMP$nParameters <- 4
+LGMP$formula <- y ~ a + b/(1+exp(c*log(x) + d))
+LGMP$plotFunction <- plotCurve_exp_3_single
+LGMP$logX <-  FALSE
+LGMP$initFunc <- function(xData,yData){
         #c(max(yData)-0.3*max(yData)*runif(1),3*rnorm(1),-6*runif(1))
         c(runif(1),max(yData)-0.3*max(yData)*runif(1),runif(1),runif(1))
 }
-logisticModelpositive$nlsstart <- function(startlist){
+LGMP$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-logisticModelpositive$flag <- 1
-logisticModelpositive$iter <- 100
-logisticModelpositive$printFormula <- function(ppar){
+LGMP$flag <- 1
+LGMP$iter <- 100
+LGMP$printFormula <- function(ppar){
         paste(as.character(ppar[1]),"+",as.character(ppar[2]),"/(1+exp(",as.character(ppar[3]),"*log(FEs)+",as.character(ppar[4]),"))" ,sep = "")
 }
 
 
 
 
-logisticModelnegative <- NULL
-logisticModelnegative$name <- 'logisticModelnegative'
-logisticModelnegative$modelFunction <- logisticModelFunction
-logisticModelnegative$nParameters <- 4
-logisticModelnegative$formula <- y ~ a + c/(1+exp(c*log(x) + d))
-logisticModelnegative$plotFunction <- plotCurve_exp_3_single
-logisticModelnegative$logX <-  FALSE
-logisticModelnegative$initFunc <- function(xData,yData){
+LGMN <- NULL
+LGMN$name <- 'LGMN'
+LGMN$modelFunction <- logisticModelFunction
+LGMN$nParameters <- 4
+LGMN$formula <- y ~ a + c/(1+exp(c*log(x) + d))
+LGMN$plotFunction <- plotCurve_exp_3_single
+LGMN$logX <-  FALSE
+LGMN$initFunc <- function(xData,yData){
         #c(max(yData)-0.3*max(yData)*runif(1),3*rnorm(1),-6*runif(1))
         c(runif(1),-max(yData)-0.3*max(yData)*runif(1),2*runif(1),-runif(1))
 }
-logisticModelnegative$nlsstart <- function(startlist){
+LGMN$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-logisticModelnegative$flag <- -1
-logisticModelnegative$iter <- 100
-logisticModelnegative$printFormula <- function(ppar){
+LGMN$flag <- -1
+LGMN$iter <- 100
+LGMN$printFormula <- function(ppar){
         paste(as.character(ppar[1]),"+",as.character(ppar[2]),"/(1+exp(",as.character(ppar[3]),"*log(FEs)+",as.character(ppar[4]),"))" ,sep = "")
 }
 
 
 
-gompertzModelnegative <- NULL
-gompertzModelnegative$name <- 'gompertzModelnegative'
-gompertzModelnegative$modelFunction <- gompertzModelFunction
-gompertzModelnegative$nParameters <- 4
-gompertzModelnegative$formula <- y ~ a+b*exp(c*exp(x*d))
-gompertzModelnegative$plotFunction <- plotCurve_gompert_single
-gompertzModelnegative$logX <-  FALSE
-gompertzModelnegative$flag <- -1
-gompertzModelnegative$initFunc<- function(xData,yData) {
+GPMN <- NULL
+GPMN$name <- 'GPMN'
+GPMN$modelFunction <- gompertzModelFunction
+GPMN$nParameters <- 4
+GPMN$formula <- y ~ a+b*exp(c*exp(x*d))
+GPMN$plotFunction <- plotCurve_gompert_single
+GPMN$logX <-  FALSE
+GPMN$flag <- -1
+GPMN$initFunc<- function(xData,yData) {
         c(a = runif(1),b = -max(yData)-0.2*max(yData)+runif(1),c = -runif(1),d = 0.5)
 }
-gompertzModelnegative$nlsstart <- function(startlist){
+GPMN$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-gompertzModelnegative$iter <- 100
-gompertzModelnegative$printFormula <- function(ppar){
+GPMN$iter <- 100
+GPMN$printFormula <- function(ppar){
         paste(as.character(ppar[1]),"+","(",as.character(ppar[2]),"*exp(",as.character(ppar[3]),"*FEs^",as.character(ppar[4]),"))"
               ,sep = "")
         
@@ -121,23 +117,23 @@ gompertzModelnegative$printFormula <- function(ppar){
 
 
 
-gompertzModelpositive <- NULL
-gompertzModelpositive$name <- 'gompertzModelpositive'
-gompertzModelpositive$modelFunction <- gompertzModelFunction
-gompertzModelpositive$nParameters <- 4
-gompertzModelpositive$formula <- y ~ a+b*exp(c*exp(x*d))
-gompertzModelpositive$plotFunction <- plotCurve_gompert_single
-gompertzModelpositive$logX <-  FALSE
-gompertzModelpositive$initFunc<- function(xData,yData) {
+GPMP <- NULL
+GPMP$name <- 'GPMP'
+GPMP$modelFunction <- gompertzModelFunction
+GPMP$nParameters <- 4
+GPMP$formula <- y ~ a+b*exp(c*exp(x*d))
+GPMP$plotFunction <- plotCurve_gompert_single
+GPMP$logX <-  FALSE
+GPMP$initFunc<- function(xData,yData) {
         c(a = 2+rnorm(1),b = max(yData)-0.2*max(yData)+runif(1),c = -runif(1),d = runif(1))
         
 }
-gompertzModelpositive$nlsstart <- function(startlist){
+GPMP$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-gompertzModelpositive$iter <- 100
-gompertzModelpositive$flag <- 1
-gompertzModelpositive$printFormula <- function(ppar){
+GPMP$iter <- 100
+GPMP$flag <- 1
+GPMP$printFormula <- function(ppar){
         paste(as.character(ppar[1]),"+","(",as.character(ppar[2]),"*exp(",as.character(ppar[3]),"*FEs^",as.character(ppar[4]),"))"
               ,sep = "")
         
@@ -145,46 +141,46 @@ gompertzModelpositive$printFormula <- function(ppar){
 
 
 
-decayModelpositive <- NULL
-decayModelpositive$name <- 'decayModelpositive'
-decayModelpositive$symbol <- 1
-decayModelpositive$modelFunction <- decayModelFunction
-decayModelpositive$nParameters <- 4
-decayModelpositive$formula <- y ~ a +(b*exp(c*x^d))
-decayModelpositive$plotFunction <- plotCurve_tweise_single
-decayModelpositive$flag <-  1
-decayModelpositive$initFunc <- function(xData,yData) {
+DCMP <- NULL
+DCMP$name <- 'DCMP'
+DCMP$symbol <- 1
+DCMP$modelFunction <- decayModelFunction
+DCMP$nParameters <- 4
+DCMP$formula <- y ~ a +(b*exp(c*x^d))
+DCMP$plotFunction <- plotCurve_tweise_single
+DCMP$flag <-  1
+DCMP$initFunc <- function(xData,yData) {
         c(runif(1),max(yData)-max(yData)/3+2*max(yData)/15*rnorm(1),-abs(rnorm(1,mean = 0,sd = 0.1)),5*runif(1))
 }
-decayModelpositive$nlsstart <- function(startlist){
+DCMP$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-decayModelpositive$iter <- 100
-decayModelpositive$printFormula <- function(ppar){
+DCMP$iter <- 100
+DCMP$printFormula <- function(ppar){
         paste(as.character(ppar[1]),"+","(",as.character(ppar[2]),"*exp(",as.character(ppar[3]),"*FEs^",as.character(ppar[4]),"))"
               ,sep = "")
 }
 
 
 
-decayModelnegative <- NULL
-decayModelnegative$name <- 'decayModelnegative'
-decayModelnegative$symbol <- -1
-decayModelnegative$modelFunction <- decayModelFunction
-decayModelnegative$nParameters <- 4
-decayModelnegative$formula <- y ~ a +(b*exp(c*x^d))
-decayModelnegative$plotFunction <- plotCurve_tweise_single
-decayModelnegative$flag <-  -1
-decayModelnegative$initFunc <- function(xData,yData) {
+DCMN <- NULL
+DCMN$name <- 'DCMN'
+DCMN$symbol <- -1
+DCMN$modelFunction <- decayModelFunction
+DCMN$nParameters <- 4
+DCMN$formula <- y ~ a +(b*exp(c*x^d))
+DCMN$plotFunction <- plotCurve_tweise_single
+DCMN$flag <-  -1
+DCMN$initFunc <- function(xData,yData) {
         
         c(max(yData)-max(yData)/3+2*max(yData)/15*rnorm(1),-max(yData),-abs(rnorm(1,mean = 0,sd = 0.1)),-abs(5*runif(1)))
         
 }
-decayModelnegative$nlsstart <- function(startlist){
+DCMN$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-decayModelnegative$iter <- 100
-decayModelnegative$printFormula <- function(ppar){
+DCMN$iter <- 100
+DCMN$printFormula <- function(ppar){
         paste(as.character(ppar[1]),"+","(",as.character(ppar[2]),"*exp(",as.character(ppar[3]),"*FEs^",as.character(ppar[4]),"))"
               ,sep = "")
         
@@ -196,21 +192,21 @@ decayModelnegative$printFormula <- function(ppar){
 
 
 # model 2.1 LogyLogx linear model
-expLinearModelpositive <- NULL
-expLinearModelpositive$name <- 'expLinearModelpositive'
-expLinearModelpositive$modelFunction <- expLinearModelFunction
-expLinearModelpositive$formula <- y~a+b*exp(c*log(x+d))
-expLinearModelpositive$nParameters <- 4
-expLinearModelpositive$plotFunction <- plotCurve_line_logy_logx3_single
-expLinearModelpositive$initFunc <- function(xData,yData) {
+EPMP <- NULL
+EPMP$name <- 'EPMP'
+EPMP$modelFunction <- expLinearModelFunction
+EPMP$formula <- y~a+b*exp(c*log(x+d))
+EPMP$nParameters <- 4
+EPMP$plotFunction <- plotCurve_line_logy_logx3_single
+EPMP$initFunc <- function(xData,yData) {
         c(max(yData)-max(yData)/3+2*max(yData)/15*rnorm(1),abs(max(yData)*rnorm(1)),-abs(rnorm(1,mean = 0,sd = 0.1)),5*runif(1))
 }
-expLinearModelpositive$nlsstart <- function(startlist){
+EPMP$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-expLinearModelpositive$iter <- 100
-expLinearModelpositive$flag <- 1
-expLinearModelpositive$printFormula <- function(ppar){
+EPMP$iter <- 100
+EPMP$flag <- 1
+EPMP$printFormula <- function(ppar){
         #  paste("exp(",as.character(ppar[1]),"+",as.character(ppar[2]),"*log(FEs))" ,sep = "")
         paste(as.character(ppar[1]),"+",as.character(ppar[2]),"*exp(",as.character(ppar[3]),"*log(FEs+",as.character(ppar[4]),"))" ,sep = "")
 }
@@ -221,21 +217,21 @@ expLinearModelpositive$printFormula <- function(ppar){
 
 
 
-expLinearModelnegative <- NULL
-expLinearModelnegative$name <- 'expLinearModelnegative'
-expLinearModelnegative$modelFunction <- expLinearModelFunction
-expLinearModelnegative$formula <- y~a+b*exp(c*log(x+d))
-expLinearModelnegative$nParameters <- 4
-expLinearModelnegative$flag <- -1
-expLinearModelnegative$plotFunction <- plotCurve_line_logy_logx3_single
-expLinearModelnegative$initFunc <- function(xData,yData) {
+EPMN <- NULL
+EPMN$name <- 'EPMN'
+EPMN$modelFunction <- expLinearModelFunction
+EPMN$formula <- y~a+b*exp(c*log(x+d))
+EPMN$nParameters <- 4
+EPMN$flag <- -1
+EPMN$plotFunction <- plotCurve_line_logy_logx3_single
+EPMN$initFunc <- function(xData,yData) {
         c(max(yData)-max(yData)/3+2*max(yData)/15*rnorm(1),-max(yData),runif(1),rnorm(1))
 }
-expLinearModelnegative$nlsstart <- function(startlist){
+EPMN$nlsstart <- function(startlist){
         list(a = startlist[1],b = startlist[2],c = startlist[3],d = startlist[4])
 }
-expLinearModelnegative$iter <- 100
-expLinearModelnegative$printFormula <- function(ppar){
+EPMN$iter <- 100
+EPMN$printFormula <- function(ppar){
         #  paste("exp(",as.character(ppar[1]),"+",as.character(ppar[2]),"*log(FEs))" ,sep = "")
         paste(as.character(ppar[1]),"+",as.character(ppar[2]),"*exp(",as.character(ppar[3]),"*log(FEs+",as.character(ppar[4]),"))" ,sep = "")
 }
