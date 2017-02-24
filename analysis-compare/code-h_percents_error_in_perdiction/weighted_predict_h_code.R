@@ -8,7 +8,7 @@ rawdata.path <- "./rawdata/tsp-singleRun/"
 dat.list <- predict.path %>% list.files()
 dat.list <- dat.list[-grep("all_model", dat.list)]
 
-maxTrain <- c(10, 50)
+maxTrain <- c(10, 50, 100)
 maxTest <- c(100, 1000, 10000)
 
 train <- 1
@@ -39,13 +39,14 @@ for(train in 1:length(maxTrain)){
         error.res <- NULL
         for(split in 1:length(dat.split)){
             
-            temp.dat <- dat.split[[split]][order(dat.split[[split]]$residuals), ]
+            tmp.dat <- dat.split[[split]][order(dat.split[[split]]$residuals), ]
             
-            if( which(dat.split[[split]]$residuals == 1000000) %>% length() != 0)
-                temp.dat <- temp.dat[-which(dat.split[[split]]$residuals == 1000000), ]
+            if( which(tmp.dat$residuals == 1000000) %>% length() != 0)
+                tmp.dat <- tmp.dat[-which(tmp.dat$residuals == 1000000), ]
             
+            if(nrow(tmp.dat) == 0) next
             
-            rawdata.name <- gsub("/", "_", temp.dat[1, "instance_file"] %>% as.character)
+            rawdata.name <- gsub("/", "_", tmp.dat[1, "instance_file"] %>% as.character)
             rawdata <- paste(rawdata.path, rawdata.name, ".csv", 
                              sep = "") %>% read.csv()
             
@@ -55,19 +56,18 @@ for(train in 1:length(maxTrain)){
             train.yData <- rawdata$y[which(rawdata$x < maxTrain[train])]
             
             weight_yData <- NULL
-            for(j in 1:nrow(temp.dat)){
-                
-                par <- temp.dat[j, c("a", "b", "c", "d")] %>% as.vector %>% as.numeric
+            weighted <- tmp.dat$residuals/sum(tmp.dat$residuals)
+            for(j in 1:nrow(tmp.dat)){
+                par <- tmp.dat[j, c("a", "b", "c", "d")] %>% as.vector %>% as.numeric
                 if(is.null(weight_yData)){
-                    weight_yData <- eval(parse(text = temp.dat$model[j] %>% as.character))$modelFunction(par, xData)
+                    weight_yData <- weighted[nrow(tmp.dat) - j + 1] * eval(parse(text = tmp.dat$model[j] %>% as.character))$modelFunction(par, xData)
                 } else {
-                    weight_yData <- weight_yData + (nrow(temp.dat)-j+1) *eval(parse(text = temp.dat$model[j] %>% as.character))$modelFunction(par, xData)
+                    weight_yData <- weight_yData + weighted[nrow(tmp.dat) -j + 1]*eval(parse(text = tmp.dat$model[j] %>% as.character))$modelFunction(par, xData)
                 }
             }
             
-            weight_yData <- weight_yData/sum(1:nrow(temp.dat))
             
-            tmp.error.res <- cbind(temp.dat[1, "instance_file"] %>% as.character, xyRMSE(yData, weight_yData))
+            tmp.error.res <- cbind(tmp.dat[1, "instance_file"] %>% as.character, xyRMSE(yData, weight_yData))
             if(is.null(error.res)){
                 error.res <- tmp.error.res
             } else {
@@ -77,7 +77,7 @@ for(train in 1:length(maxTrain)){
             plot(xData, yData, pch = 20, log = "x", xlab = "FEs", ylab = "Performance")
             points(train.xData, train.yData, pch = 20, col = "blue" )
             lines(xData, weight_yData, col = "green")
-            title(main = temp.dat[1, "instance_file"] %>% as.character)
+            title(main = tmp.dat[1, "instance_file"] %>% as.character)
         }
         
         
@@ -87,6 +87,7 @@ for(train in 1:length(maxTrain)){
            all.error.res <- error.res[, 1]
         all.error.res <- all.error.res %>% cbind(error.res[, 2])
         all.error.res.colnames <- all.error.res.colnames %>% cbind(paste(maxTrain[train], "_", maxTest[test], sep = ""))
+        
         dev.off()
     }
     

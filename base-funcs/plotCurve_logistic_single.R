@@ -43,44 +43,4 @@ plotCurve_exp_3_single <- function(s, theta, index = nrow(s)){
                 lines(data.line$x, data.line$y1, col = "green", lwd = 2)
           
 }      
-        # } else {
-        #         
-        #         tag = floor(nrow(s)/10)
-        #         
-        #         for(i in 1:10){
-        #                 
-        #                 subscript <- c((tag*(i-1)+1):(tag*i))
-        #                 
-        #                 data.point <- data.frame(x[subscript],  y[subscript])
-        #                 names(data.point) <- c("x", "y")
-        #                 
-        #                 if(i == 1){
-        #                         
-        #                         # p <- ggplot(data.point, aes(x, y)) +
-        #                         #         geom_point(colour = "blue", stat = "identity", size = 2) +
-        #                         #         scale_x_log10()
-        #                         
-        #                         plot(data.point$x, data.point$y,  log = "x", ylab = "Objective Value", xlab = "FEs",
-        #                              pch = 20, cex = 1, col = "blue", ylim(min(y), max(y)))
-        #                         grid()
-        #                         
-        #                         
-        #                 } else {
-        #                         
-        #                         #p <- p + geom_point(data.point, mapping = aes(x, y), col = "blue", size = 2)
-        #                         points(data.point$x, data.point$y, col = i, cex = 2)
-        #                         
-        #                 }
-        #                 
-        #                 
-        #         }
-        #         ##FF6633
-        #         data.line = data.frame(x,y1)
-        #         # p <- p + geom_line (data.line, mapping = aes(x, y1), col = "green", size = 1)
-        #         # p <- p + Myggolot2.theme() + Myggolot2.label()
-        #         # p
-        #         lines(data.line$x, data.line$y1, col = "#FF6633", lwd = 2)
-        #   
-        # }
-        # 
-# }
+       

@@ -3,7 +3,7 @@ source("./problembased-funcs/LM_model_func.R")
 source("./base-funcs/path_config.R")
 
 
-RunLM <- function(PRE_OR_NOT, problem = "maxsat", maxTr = c(50), maxTe = c(100), list.model, iter = c(10), option = "each"){
+RunLM <- function(PRE_OR_NOT, problem = "maxsat", maxTr = c(50), maxTe = c(100), list.model, iter = c(10), method, option = "each"){
     
     path.config <- path_config(problem)
     file.path <- path.config[1]
@@ -26,7 +26,8 @@ RunLM <- function(PRE_OR_NOT, problem = "maxsat", maxTr = c(50), maxTe = c(100),
                     cat("Maxtrain : ", maxTr[maxtrain], "\n")
                     for(maxtest in 1:length(maxTe)){
                         cat("Maxtest : ", maxTe[maxtest], "\n")
-                        
+                       
+                        single.thread.start.time <- Sys.time() 
                         mainfunc(
                             PRE_OR_NOT = PRE_OR_NOT,
                             maxTrain = maxTr[maxtrain],
@@ -35,8 +36,12 @@ RunLM <- function(PRE_OR_NOT, problem = "maxsat", maxTr = c(50), maxTe = c(100),
                             list_model = list.model[mod], 
                             file.path = file.path, 
                             save.path = save.path, 
-                            cal.error.method = "BL"
+                            cal.error.method = method
                         )
+                        
+                        single.thread.end.time <- Sys.time()
+                        
+                        cat("Single cost time: ", single.thread.end.time - single.thread.start.time, "\n")
                         
                     }
                     
@@ -59,7 +64,7 @@ RunLM <- function(PRE_OR_NOT, problem = "maxsat", maxTr = c(50), maxTe = c(100),
                         list_model = list.model, 
                         file.path = file.path, 
                         save.path = save.path, 
-                        cal.error.method = "BL"
+                        cal.error.method = method
                     )
                 }
             }

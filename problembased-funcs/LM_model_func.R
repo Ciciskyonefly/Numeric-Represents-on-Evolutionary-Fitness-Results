@@ -58,7 +58,7 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
         instance.alogorithm.name <- gsub(".csv", "", instance.alogorithm.name)
         pathpath <- paste(file.path, instances.names[ins], sep = "")
         
-        cat("pathpath: ", pathpath, "\n")
+       #cat("pathpath: ", pathpath, "\n")
         if(grepl("pre", PRE_OR_NOT)){
             
             all.raw.data <- read.csv(pathpath)
@@ -98,7 +98,7 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
             p <- findBestFitting(train.data, xData, yData, globalmodels, iter)
         }
         
-        showplot <- p$plotFunction(raw.data, p$par, sample.index) 
+        p$plotFunction(raw.data, p$par, sample.index) 
         title(main = instance.alogorithm.name)
         
         tmp.para <- cbind(instance.alogorithm.name, p$name, t(p$par), p$residual, deparse.level = 0)
@@ -110,19 +110,11 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
     
     dev.off()
     
-    #ggplot2 save. Cost too much time.
-    # library(gridExtra)
-    # ggsave(filename = pdfname, marrangeGrob(grobs = list_plot, nrow = 2, ncol = 2))
     
     colnames(all.parameters) <- c("instance_file","model","a","b","c","d","residuals")
     write.csv(all.parameters, csv.name, row.names = FALSE, col.names = TRUE)
     
-    # if(!is.null(relationship)){
-    #         colnames(relationship) <- c("instance_file","model")
-    #         csvname.rela <- paste(respath,iter,"_",unlist(list_model)$name,"_model.csv",sep="")
-    #         write.csv(relationship,csvname.rela,row.names = FALSE,col.names = TRUE)
-    # }
-    # 
+  
     
 }
 

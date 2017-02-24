@@ -15,12 +15,13 @@ list_model = list(
 volume = c(100)
 iter = c(10)
 
-maxTrain <- c(50)
+maxTrain <- c(10)
 maxTest <- c(100)
 
 
-RunLM(PRE_OR_NOT = "pre", problem = "tsp",  maxTr = maxTrain, maxTe = maxTest, list.model = list_model, iter = iter, option = "each")
-
+RunLM(PRE_OR_NOT = "pre", problem = "tsp",  maxTr = maxTrain, maxTe = maxTest, list.model = list_model, 
+      method = "BL",
+      iter = iter, option = "each")
 
 end.time = Sys.time()
 
