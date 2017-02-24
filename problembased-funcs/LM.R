@@ -24,15 +24,18 @@ LMSolverSingleModel <- function(future.data, model, xData, yData){
         
         x = xData
         y = yData  
-        y <- abs(y)
-        if(which(y == 0) %>% length() != 0){
-            y[which(y == 0)] = min(abs(y[-which(y == 0)]))/2
-        }
+        
         
         #set radom seed
         set.seed(59)
 
         for(it in 1:model$iter){
+            
+                # fitting_func <- function(model, initialPara, xData, yData, weights)
+                # model
+                # Weights Function <- func
+                #
+                #
 
                 initialPara <- getInitialParameters(model, xData, yData)
                 temp.res$par <- initialPara
@@ -43,8 +46,7 @@ LMSolverSingleModel <- function(future.data, model, xData, yData){
                         fit = nlsLM(model$formula, data = datalist,
                                     start = model$nlsstart(startlist),
                                     control = list(maxiter = 100),
-                                    weights = (1/abs(y))
-                        #            weights = (1/abs(y- min(y) + 0.1))
+                                    weights = weights_funcs(y)
                                     )
                         temp.res$par = as.vector(coef(fit))
                         pred_y <- GetFormulaValue(model$formula, fix.xData, temp.res$par)[, 2]
@@ -95,8 +97,7 @@ LMSolverSingleModel <- function(future.data, model, xData, yData){
                                             start = model$nlsstart(startlist),
                                             upper = c(+Inf,30*max(yData),+Inf,+Inf),
                                             control = list(maxiter = 100),
-                                            weights = (1/abs(y))
-                                       #     weights = (1/y)
+                                            weights = weights_funcs(y)
                                             )
                                 temp.res$par = as.vector(coef(fit))
                                 pred_y <- GetFormulaValue(model$formula, fix.xData, temp.res$par)[, 2]
@@ -138,7 +139,7 @@ LMSolverSingleModel <- function(future.data, model, xData, yData){
                                             start = model$nlsstart(startlist),
                                             upper = c(+Inf,30*max(yData),+Inf,+Inf),
                                             control = list(maxiter = 100),
-                                            weights = (1/abs(y))
+                                            weights = weights_funcs(y)
                                 )
                                 
                                 temp.res$par = as.vector(coef(fit))
@@ -175,7 +176,7 @@ LMSolverSingleModel <- function(future.data, model, xData, yData){
                                 fit = nlsLM(model$formula,data =datalist,start = model$nlsstart(startlist), 
                                             upper = c(+Inf,30*max(yData),+Inf,+Inf), 
                                             control = list(maxiter = 100), 
-                                            weights = (1/abs(y))
+                                            weights = weights_funcs(y)
                                             )
                                 temp.res$par = as.vector(coef(fit))
                                 pred_y <- GetFormulaValue(model$formula, fix.xData, temp.res$par)[, 2]

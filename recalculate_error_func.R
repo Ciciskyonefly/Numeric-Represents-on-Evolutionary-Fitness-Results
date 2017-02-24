@@ -44,8 +44,6 @@ recalculate_error_func <- function(file, problem,  old.maxTest, maxTe){
             future.data.y <- raw.data$y[-sample.index]
             future.data <- data.frame(x = future.data.x, y = future.data.y)
             
-            
-            
             par <- res.dat[fi, c("a", "b", "c", "d")] %>% as.numeric
             if(nrow(future.data) != 0){
                 tmp.pre_y <- GetFormulaValue(eval(parse(text = res.dat$model[fi] %>% as.character))$formula, future.data$x, par)[, 2]
@@ -65,13 +63,8 @@ recalculate_error_func <- function(file, problem,  old.maxTest, maxTe){
 }  
 
 
-path <- "./modelresults/LM.tsp.pre/singleRun/maxTrain-maxTest/"
+path <- "./modelresults/LM.bbob.pre/bbob-log-y/100percentleft/"
 res.list <- list.files(path)
-res.list <- paste(path, res.list[grep("C_.+.csv", res.list)], sep = "")
-
-#for(lm in 4:length(res.list)){
-    
-    lm = 1
-    recalculate_error_func(res.list[lm], problem = "tsp", old.maxTest = 10,  maxTe = c(100, 1000, 10000))
-#}
+res.list <- paste(path, res.list[grep("10_.+.csv", res.list)], sep = "")
+recalculate_error_func(res.list[lm], problem = "bbob", old.maxTest = 10,  maxTe = c(100, 1000, 10000))
 

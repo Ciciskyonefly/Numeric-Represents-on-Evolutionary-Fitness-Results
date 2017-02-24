@@ -5,13 +5,11 @@ source("./base-funcs/path_config.R")
 
 #path_config
 plotbehavior <- function(file, problem){
-    
     library(dplyr)
     #extract save.path from file.
     res.dat <- read.csv(file)
     rawdata.path <- path_config(problem)[1]
     restore.path <- path_config(problem)[2]
-      
     
     pdf.name <- gsub(".csv", ".pdf", file)
     pdf(pdf.name)
@@ -21,7 +19,6 @@ plotbehavior <- function(file, problem){
         rawdata.name <- gsub("/", "_", res.dat[fi, "instance_file"] %>% as.character)
         rawdata <- paste(rawdata.path, rawdata.name, ".csv", 
                          sep = "") %>% read.csv()
-        
         xData <-  rawdata$x
         par <- res.dat[fi, c("a", "b", "c", "d")] %>% as.numeric
         eval(parse(text = res.dat$model[fi] %>% as.character))$plotFunction(rawdata, par, nrow(rawdata))
@@ -45,7 +42,6 @@ plotbehavior_maxTrain_maxTest <- function(file, problem){
     tmp.string <- strsplit(file, "_") %>% unlist()
     maxTrain <-  tmp.string[2]%>%as.numeric()
     maxTest <-  tmp.string[3]%>%as.numeric()
-    
     
     pdf.name <- gsub(".csv", ".pdf", file)
     pdf(pdf.name)
@@ -80,10 +76,12 @@ plotbehavior_maxTrain_maxTest <- function(file, problem){
 
 
 
-path <- "./modelresults/LM.tsp.pre/singleRun/maxTrain-maxTest/"
-res.list <- list.files(path)
-res.list <- paste(path, res.list[grep("C_.+.csv", res.list)], sep = "")
 
-for(lm in 1:length(res.list)){
-    plotbehavior_maxTrain_maxTest(res.list[lm], "tsp")
-}
+path <- "./modelresults/LM.bbob.pre/bbob-log-y/100percentleft/"
+res.list <- list.files(path)
+res.list <- paste(path, res.list[grep("10_.+.csv", res.list)], sep = "")
+plotbehavior(res.list[lm], "bbob")
+plotbehavior(res.list[lm], "bbob")
+# for(lm in 1:length(res.list)){
+#     plotbehavior_maxTrain_maxTest(res.list[lm], "tsp")
+# }

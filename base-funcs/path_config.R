@@ -15,7 +15,7 @@ path_config <- function(problem){
     }
     if(grepl("bbob", problem)){
         file.path = "./rawdata/bbob-log-y/"
-        save.path = "./modelresults/LM.bbob.pre/bbob-log-y/"
+        save.path = "./modelresults/LM.bbob.pre/bbob-log-y/100percentleft/"
         cat("BBob Problem: \n")
     }
     

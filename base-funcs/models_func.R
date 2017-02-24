@@ -1,4 +1,5 @@
 
+
 getInitialParameters <- function(model, xData, yData) {
         # Provide initial parameters for model fitting.
         #
@@ -44,6 +45,7 @@ getInitialParameters <- function(model, xData, yData) {
 }
 
 
+
 xyRMSE <- function(y, pred.y) {
         # Use for calculating residuals.
         # 
@@ -61,7 +63,7 @@ xyRMSE <- function(y, pred.y) {
 
 #Can be the implementation of LM.R temp$res caculation method 
 GetFormulaValue <- function(formula, xData, ppres){
-        # Compute the fitting error of the model . 
+        # According to models formula, xData, models parameters compute the fitting error of the model . 
         #
         # Args:
         #   formula: A nonlinear model formula.   
@@ -93,5 +95,23 @@ GetFormulaValue <- function(formula, xData, ppres){
         return (data.frame(xData,fyData))
 }
 
-
+weights_funcs <- function(y){
+    # Return LM algorithms weights value  
+    #
+    # Args:
+    #   y: The vector gonna to be weights, but have some restrains.   
+    #
+    # Returns:
+    #   LM algorithms weights.
+    
+    if(which(y < 0) %>% length != 0){
+        weights <- (1/abs(y- min(y) + 0.1))
+    } else {
+        if(which(y == 0) %>% length() != 0){
+            y[which(y == 0)] = min(abs(y[-which(y == 0)]))/2
+        }
+        weights <- 1/abs(y)
+    }
+    return (weights)
+}
 

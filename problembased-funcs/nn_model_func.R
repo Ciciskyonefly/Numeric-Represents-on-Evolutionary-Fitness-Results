@@ -22,19 +22,15 @@ NN <- function(xData, yData, sample.index, iter, maxiter, hiddensize){
     future.data.y <- yData[-sample.index]
     future.data <- data.frame(x = future.data.x, y = future.data.y)
     
-    #cat("y: ", y, "\n")
-    # if( which(y <= 0)%>% length() != 0 )
-    #     y[which(y <= 0)] = min(y[-which(y <= 0)])/2
     
     sum_y = rep(0, length(yData))
     residuals = 0
     for( i in 1 : iter){
-        #cat("0: ", which(y == 0), "\n")
-        #cat("NA: ", is.na(y), "\n")
         #, weights cannot smaller than 0.  weights = 1/y, 
-        nn <- nnet(data.frame(x), data.frame(y),  size= hiddensize, maxit= maxiter,  linout = TRUE,  trace = FALSE)
+        nn <- nnet(data.frame(x), data.frame(y),  size = hiddensize, maxit= maxiter, weights = weights_funcs(y), linout = TRUE,  trace = FALSE)
         if(nrow(future.data) != 0){
             predict_y =  predict(nn, data.frame(future.data.x), type = "raw")
+            cat("length predict_y, future.data.y:", length(predict_y), length(future.data.y), "\n")
             temp.residuals = xyRMSE(future.data.y, predict_y)
             #for print line
             predict_y =  predict(nn, data.frame(xData), type = "raw")
@@ -79,7 +75,6 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
         for(ins in 1:length(instances.names)){
             
             instance.alogorithm.name <- gsub("_", "/", instances.names[ins])
-            
             instance.alogorithm.name <- gsub(".csv", "", instance.alogorithm.name)
             pathpath <- paste(rawdata.path, instances.names[ins], sep = "")
             print(pathpath)
@@ -117,9 +112,6 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
             yData = raw.data$y
             
             p <- NN(xData, yData, sample.index, iter, maxiter, hiddensize)
-            
-            
-            
             #omit plot
             showplot <- NN_plot(xData, yData, sample.index)
             pre_y <- p$pre_y
