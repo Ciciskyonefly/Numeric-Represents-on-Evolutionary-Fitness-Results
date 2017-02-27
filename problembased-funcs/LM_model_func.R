@@ -11,7 +11,7 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
     # Return:
     #     Save function fitting "a", "b", "c", "d", "residuals"
     #
-    #  cal.error.method : Sampling  cal.error.method . Keep Constant
+    # cal.error.method : Sampling  cal.error.method . Keep Constant
     # PRE_OR_NOT : Run future of progress(Prediction) or not
     # maxTrain: In prediction, the maxFEs used for training data.[1, maxTrain]
     # maxTest: In prediction, the maxFEs used as testing data.Interval(maxTrain, maxTest]
@@ -19,7 +19,6 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
     # file.path: raw data path
     # save.path : results save path.
     # datavolume: The data used in this function, default all.
-    #  cal.error.method : two ways of subsampling data. 1. Randomied choose. 2. Using the first part. #default 1
     
     if(!exists(save.path))
         dir.create(save.path)
@@ -97,13 +96,10 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
         if(grepl("BL", cal.error.method)){
             p <- findBestFitting(train.data, xData, yData, globalmodels, iter)
         }
-        
         p$plotFunction(raw.data, p$par, sample.index) 
         title(main = instance.alogorithm.name)
-        
         tmp.para <- cbind(instance.alogorithm.name, p$name, t(p$par), p$residual, deparse.level = 0)
         all.parameters <- rbind(all.parameters, tmp.para, deparse.level = 0)
-        
         
     }
     

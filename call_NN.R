@@ -1,66 +1,55 @@
 
 
-RunNN <- function(PRE_OR_NOT, problem = "maxsat", maxTrain, maxTest, predict.data = c(100), iter = c(20), maxiter = c(50) ,hiddensize = c(6)){
+RunNN <- function(PRE_OR_NOT, problem = "maxsat", maxTr, maxTe,  iter = c(20), maxiter = c(50) ,hiddensize = c(6)){
     
     source("./problembased-funcs/nn_model_func.R")
+    source("./nn/NN_path_config.R")
     file.path <- NN_path_config(problem)[1]
     save.path <- NN_path_config(problem)[2]
     for(it in 1:length(iter)){
-        volume <- predict.data
-        for (i in 1:length(volume)){
-            
-            #inner.filename = paste(volume, "percentleft", sep = "")
-            #Fixpath
-            
-            if(grepl("pre", PRE_OR_NOT)){
-                every.savepath <- paste(save.path, "maxTrain-maxTest/", sep = "")
-            } else {
-                inner.filename = paste(volume,"percentleft",sep = "")
-                every.savepath = paste(save.path,inner.filename[i],"/",sep = "")
-                print(every.savepath)
-            }
-            
-            if(!exists(every.savepath))
-                dir.create(every.savepath)
-            cat("iter: ", iter[it]," volume: ", volume[i], "\n")
-            for(maxi in 1: length(maxiter)){
-                cat("maxiter: ", maxiter[maxi], "\n")
-                for(hid in 1:length(hiddensize)){
-                    
-                    for(maxtrain in 1:length(maxTrain)){
+        
+        #inner.filename = paste(volume, "percentleft", sep = "")
+        #Fixpath
+        
+        if(grepl("pre", PRE_OR_NOT)){
+            save.path <- paste(save.path, "maxTrain-maxTest/", sep = "")
+        }
+        if(!exists(save.path))
+            suppressWarnings(dir.create(save.path))
+        
+        cat("iter: ", iter[it], "\n")
+        for(maxi in 1: length(maxiter)){
+            cat("maxiter: ", maxiter[maxi], "\n")
+            for(hid in 1:length(hiddensize)){
+                for(maxtrain in 1:length(maxTr)){
+                    for(maxtest in 1:length(maxTe)){
                         
-                        for(maxtest in 1:length(maxTest)){
-                            
-                            NN.mainfunc(
-                                PRE_OR_NOT = PRE_OR_NOT,
-                                maxTrain = maxTrain[maxtrain],
-                                maxTest = maxTest[maxtest],
-                                maxiter = maxiter[maxi],
-                                hiddensize = hiddensize[hid],
-                                iter = iter[it], 
-                                file.path  = file.path, 
-                                save.path = every.savepath, 
-                                datavolume = volume[i]/100,
-                                method = 1,
-                                runtime = 1
-                            )
-                            
-                        }
+                        NN.mainfunc(
+                            PRE_OR_NOT = PRE_OR_NOT,
+                            maxTrain = maxTr[maxtrain],
+                            maxTest = maxTe[maxtest],
+                            maxiter = maxiter[maxi],
+                            hiddensize = hiddensize[hid],
+                            iter = iter[it], 
+                            file.path  = file.path, 
+                            save.path = save.path, 
+                            method = 1,
+                            runtime = 1
+                        )
                         
                     }
                     
                 }
+                
             }
-            
-            
-            
         }
         
-        rm(file.path)
+        
+        
     }
     
+    rm(file.path)
 }
-
 
 
 

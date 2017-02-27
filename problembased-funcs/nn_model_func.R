@@ -30,7 +30,7 @@ NN <- function(xData, yData, sample.index, iter, maxiter, hiddensize){
         nn <- nnet(data.frame(x), data.frame(y),  size = hiddensize, maxit= maxiter, weights = weights_funcs(y), linout = TRUE,  trace = FALSE)
         if(nrow(future.data) != 0){
             predict_y =  predict(nn, data.frame(future.data.x), type = "raw")
-            cat("length predict_y, future.data.y:", length(predict_y), length(future.data.y), "\n")
+          #  cat("length predict_y, future.data.y:", length(predict_y), length(future.data.y), "\n")
             temp.residuals = xyRMSE(future.data.y, predict_y)
             #for print line
             predict_y =  predict(nn, data.frame(xData), type = "raw")
@@ -56,12 +56,22 @@ NN <- function(xData, yData, sample.index, iter, maxiter, hiddensize){
 
 
 NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxiter = 50, hiddensize = 6, iter, file.path, save.path = "./BenchMarking/OPResults/MaxsatResult/",datavolume = 1,method = 1, runtime = 1){
-    
+    # Function for Artificial Neutral Network fitting curve.
+    # Args:
+    #   cal.error.method : Sampling  cal.error.method . Keep Constant
+    #   PRE_OR_NOT : Run future of progress(Prediction) or not
+    #   maxTrain : In prediction, the maxFEs used for training data.[1, maxTrain]
+    #   maxTest : In prediction, the maxFEs used as testing data.Interval(maxTrain, maxTest]
+    #   file.path : raw data path
+    #   save.path : results save path.
+    #   cal.error.method : two ways of subsampling data. 1. Randomied choose. 2. Using the first part. #default 1
+    #   Runtime : How many times this NN fitting functions work. 
+    # Return:
+    #   Save ANN approximator fitting resing  "residuals", "weights"
     for(run in 1:runtime){
         
         rawdata.path = file.path
         instances.names <- rawdata.path %>% list.files()
-        
         save.wts <- NULL
         save.residuals <- NULL
         save.both <- NULL
@@ -77,7 +87,7 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
             instance.alogorithm.name <- gsub("_", "/", instances.names[ins])
             instance.alogorithm.name <- gsub(".csv", "", instance.alogorithm.name)
             pathpath <- paste(rawdata.path, instances.names[ins], sep = "")
-            print(pathpath)
+       #     print(pathpath)
             #for train and prediction data.
             if(grepl("pre", PRE_OR_NOT)){
                 all.raw.data <- read.csv(pathpath)
@@ -96,17 +106,8 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
                 
             } else {
                 raw.data <- read.csv(pathpath)
-                if(method == 2){
-                    sample.index = sort(sample(1:nrow(raw.data),ceiling(nrow(raw.data)*datavolume)))
-                } else if (method == 1){
-                    sample.index = c(1:ceiling(nrow(raw.data)*datavolume))
-                }
+                sample.index = c(1:ceiling(nrow(raw.data)*datavolume))
             }
-            
-            
-            
-            
-            
             
             xData = raw.data$x
             yData = raw.data$y
@@ -131,13 +132,13 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
             # 
             save.wts <-  rbind(save.wts, cbind(instance.alogorithm.name, t(p$wts)))
             save.residuals <-  rbind(save.residuals, cbind(instance.alogorithm.name, p$residuals))
-            save.both <- rbind(save.both, cbind(instance.alogorithm.name, t(p$wts), p$residuals))
+            save.both <- rbind(save.both, cbind(instance.alogorithm.name, residuals = p$residuals, t(p$wts)))
             
             if(count.process %% 1000 == 0)
                 print(count.process)
             
         }
-        cat("all run: ", count.process, " \n")
+   #     cat("all run: ", count.process, " \n")
         print ("ok")
     }
     
@@ -145,9 +146,16 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
     # library(gridExtra)
     # ggsave(filename = pdfname, marrangeGrob(grobs = list_plot, nrow = 2, ncol = 2))
     # 
-    write.csv(save.wts, file = paste(save.path, maxTrain,"_", maxTest,"_wts_", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv",sep = ""),  row.names = FALSE)
-    write.csv(save.residuals, file = paste(save.path, maxTrain,"_", maxTest, "_residuals_", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv", sep = ""),  row.names = FALSE)
-    write.csv(save.both, file = paste(save.path, maxTrain,"_", maxTest, "_wts_residuals", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv", sep = ""),  row.names = FALSE)
+    
+    if(grepl("pre", PRE_OR_NOT)){
+        write.csv(save.wts, file = paste(save.path,"pre_wts_", maxTrain,"_", maxTest,"_", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv",sep = ""),  row.names = FALSE)
+        write.csv(save.residuals, file = paste(save.path, "pre_resi_", maxTrain,"_", maxTest, "_", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv", sep = ""),  row.names = FALSE)
+        write.csv(save.both, file = paste(save.path, "pre_wts_resi,", maxTrain,"_", maxTest, "_", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv", sep = ""),  row.names = FALSE)
+    } else {
+        write.csv(save.wts, file = paste(save.path, "not_pre_wts", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv",sep = ""),  row.names = FALSE)
+        write.csv(save.residuals, file = paste(save.path, "not_pre_resi", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv", sep = ""),  row.names = FALSE)
+        write.csv(save.both, file = paste(save.path,"not_pre_wts_resi", iter, "iter_", hiddensize, "hiddensize_" , maxiter, "maxiter_", run,"runs.csv", sep = ""),  row.names = FALSE)
+    }
     
 }
 
