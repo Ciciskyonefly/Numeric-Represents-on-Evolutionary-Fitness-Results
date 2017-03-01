@@ -50,11 +50,11 @@ xyRMSE <- function(y, pred.y) {
         # Use for calculating residuals.
         # 
         square.residuals <- (y - pred.y) * (y - pred.y)
-        
+        Denominator.y <- weights_funcs(y)
         if( which(y == 0)%>% length() != 0 )
                 y[which(y == 0)] = min(abs(y[-which(y == 0)]))/2
         
-        eva.residuals <- sum(square.residuals/(y))/length(y)
+        eva.residuals <- sum(square.residuals* Denominator.y)/length(y)
         return (eva.residuals)
 }
 

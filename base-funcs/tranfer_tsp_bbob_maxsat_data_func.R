@@ -172,6 +172,8 @@ transferBbob <- function(){
   algorithm.listnames = TotalPath %>% list.files()
   alg.list <- algorithm.listnames[-grep("\\.",algorithm.listnames)]
   
+  alg.name.list <- do.call(rbind, strsplit(alg.list, "_"))[, 2]
+
   for(alg in 1:length(alg.list)){
     #function name
     func.list <- paste(file_path, alg.list[alg], sep = "") %>% list.files()
@@ -187,7 +189,7 @@ transferBbob <- function(){
         save.datname = gsub("bbobexp_","", dat.list[dat]) 
         
         save.file = paste(save_path,
-                          alg.list[alg],"_",  gsub(".dat",".csv",save.datname), sep = "")
+                          alg.name.list[alg],"_",  gsub(".dat",".csv",save.datname), sep = "")
         write.csv(data, file = save.file, row.names = FALSE)
       }
     }
@@ -196,5 +198,5 @@ transferBbob <- function(){
 }
 
 
-ransferTspSingleRun()
+#ransferTspSingleRun()
 transferBbob()

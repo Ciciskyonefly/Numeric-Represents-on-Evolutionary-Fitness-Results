@@ -44,14 +44,12 @@ LoadMaxsat<-function(file.path = "./modelresults/LM.maxsat/10_decayModelpositive
         data.table = read.csv(file.path, header = TRUE)
         pre.length = nrow(data.table)
         colnames(data.table)
-        if(length(which(data.table[,"residuals"] == 1000000)) > 0)
-                data.table = data.table[-which(data.table[,"residuals"] == 1000000),]
-        #data.table <- data.table[,-ncol(data.table)]
-        after.length = nrow(data.table)
-        print("Correct rate:")
-        print(after.length/pre.length *100)
-        #     data.matrix = as.matrix(data.table)
-     #   names(data.table) <- names(data.table)[c(2,1,3:ncol(data.table))]
+        # if(length(which(data.table[,"residuals"] == 1000000)) > 0)
+        #         data.table = data.table[-which(data.table[,"residuals"] == 1000000),]
+        # #data.table <- data.table[,-ncol(data.table)]
+        # after.length = nrow(data.table)
+        # print("Correct rate:")
+        # print(after.length/pre.length *100)
         data.matrix <- data.table
         uni.algorithm = do.call(rbind, strsplit(as.vector(data.matrix$instance_file),"/"))[, 1] %>% unique() %>% OrderAlgorithms.maxsat()
         uni.datafile = do.call(rbind, strsplit(as.vector(data.matrix$instance_file),"/"))[, 2] 
@@ -89,6 +87,11 @@ LoadBbob <- function(file.path =  "./modelresults/LM.bbob.pre/100percentleft/10_
     library(stringr)
     data.matrix <- read.csv(file.path)
     pre.length <- nrow(data.matrix)
+    alg <- do.call(rbind, strsplit(as.vector(data.matrix$instance_file), "/"))[, 1]
+    alg <- alg %>% factor()
+    data.matrix$alg <- alg
+    
+    
     func <- do.call(rbind, strsplit(as.vector(data.matrix$instance_file), "/"))[, 2]
     func <- func %>% factor()
     func.level <- levels(func)[levels(func) %>% str_extract_all("[0-9]+", simplify = TRUE) %>% as.numeric %>% order()]
@@ -98,6 +101,8 @@ LoadBbob <- function(file.path =  "./modelresults/LM.bbob.pre/100percentleft/10_
     dim <- do.call(rbind, strsplit(as.vector(data.matrix$instance_file), "/"))[, 3]
     dim.level <- paste("DIM", str_extract_all(dim, "[0-9]+", simplify = TRUE) %>% unique %>% as.numeric %>% sort, sep = "")
     data.matrix$dim <- factor(dim, levels = dim.level, ordered = TRUE)
+    
+    
     
     data.matrix <- data.matrix[order(data.matrix$dim), ]
     data.matrix <- data.matrix[order(data.matrix$func), ]

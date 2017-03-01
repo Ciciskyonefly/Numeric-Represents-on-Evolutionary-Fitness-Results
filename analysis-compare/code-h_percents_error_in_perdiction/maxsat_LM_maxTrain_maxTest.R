@@ -20,11 +20,11 @@ maxTest <- c(100, 1000, 10000)
 #
 #
 
-file.path = "./modelresults/LM.tsp.pre/singleRun/maxTrain-maxTest/"
+file.path = "./modelresults/LM.maxsat.pre/maxTrain-maxTest/"
 percent.filenames = list.files(file.path)
 list.names <-percent.filenames[grep(".csv", percent.filenames)]
 list.names <-list.names[grep("C.+all_model", list.names)]
-per <- 2
+#per <- 2
 all.residuals <- NULL
 all.residuals.names <- NULL
 for(per in 1:length(list.names)){
@@ -33,7 +33,7 @@ for(per in 1:length(list.names)){
     str.string <-  do.call(rbind, strsplit(list.names[per],"_")) 
     all.residuals.names <- cbind(all.residuals.names, paste(str.string[2],"_",str.string[3], sep = ""))
     final.path = paste(file.path, list.names[per], sep = "")
-    data.matrix <- LoadTsp(final.path)
+    data.matrix <- LoadMaxsat(final.path)
     #  data.matrix <- data.matrix[-grep("experiment",data.matrix$instances %>% as.character ), ]
     
     temp.pre.data <- data.matrix

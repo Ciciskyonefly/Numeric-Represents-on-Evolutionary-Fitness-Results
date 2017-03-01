@@ -17,7 +17,7 @@ maxTrain <- c(10, 50, 100)
 maxTest <- c(100)
 
 
-RunLM(PRE_OR_NOT = "pre", problem = "maxsat",  maxTr = maxTrain, maxTe = maxTest, list.model = list_model,
+RunLM(PRE_OR_NOT = "not", problem = "bbobs",  maxTr = maxTrain, maxTe = maxTest, list.model = list_model,
       method = "BL",
       iter = iter, option = "each")
 

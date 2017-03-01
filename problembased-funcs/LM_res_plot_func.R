@@ -77,10 +77,12 @@ plotbehavior_maxTrain_maxTest <- function(file, problem){
 
 
 library(dplyr)
-path <- "./modelresults/LM.maxsat.pre/maxTrain-maxTest/"
+path <- "./modelresults/LM.bbob.pre/100percentleft/"
 res.list <- list.files(path)
-res.list <- paste(path, res.list[grep("C_.+.csv", res.list)], sep = "")
+res.list <- paste(path, res.list[grep("BL_.+.csv", res.list)], sep = "")
+
+
 
 for(lm in 1:length(res.list)){
-    plotbehavior_maxTrain_maxTest(res.list[lm], "maxsat")
+    plotbehavior(res.list[lm], "bbob")
 }

@@ -12,12 +12,8 @@ iter = 20
 hiddensize = 6
 maxiter = 50
 
-
-
-
 file.path = "./modelresults/NN.maxsat.pre/maxTrain-maxTest/"
 percent.filenames = list.files(file.path)
-
 pattern <- paste( "residuals_" ,iter, "iter_", hiddensize, "hiddensize_", maxiter, "maxiter_",  sep = "")
 
 list.names <-percent.filenames[grep(pattern, percent.filenames)]

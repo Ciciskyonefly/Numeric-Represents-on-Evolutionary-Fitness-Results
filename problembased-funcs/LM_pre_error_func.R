@@ -65,7 +65,7 @@ recalculate_error_func <- function(file, problem,  old.maxTest, maxTe){
 library(dplyr)
 path <- "./modelresults/LM.maxsat.pre/maxTrain-maxTest/"
 res.list <- list.files(path)
-res.list <- paste(path, res.list[grep("C_.+.csv", res.list)], sep = "")
+res.list <- paste(path, res.list[grep("BL_.+.csv", res.list)], sep = "")
 for(lm in 1:length(res.list)){
     recalculate_error_func(res.list[lm], problem = "maxsat", old.maxTest = 100,  maxTe = c(100, 1000, 10000))
 }
