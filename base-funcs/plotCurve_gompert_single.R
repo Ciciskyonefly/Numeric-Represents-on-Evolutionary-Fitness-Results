@@ -4,6 +4,9 @@ source("./base-funcs/ggplot2_theme_label.R")
 
 plotCurve_gompert_single <- function(s,theta,index = nrow(s)){
     
+    if(which(s$y <= 0) %>% length() != 0)  
+        s <- s[-which(s$y <= 0), ]
+    
     x = s$x
     y = s$y
     y1 = theta[1]+ theta[2]*exp(theta[3]*exp(x*theta[4])) 
@@ -19,7 +22,7 @@ plotCurve_gompert_single <- function(s,theta,index = nrow(s)){
     #         scale_x_log10() + scale_y_log10()
     #      ylim(min(y), max(y))
     
-    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "x", ylab = "Objective Value", 
+    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "xy", ylab = "Objective Value", 
          xlab = "FEs", pch = 20, cex = 1, col = "blue",
          ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
     grid()

@@ -1,15 +1,16 @@
 rm(list = ls())
 source("./bbob/base_var.R")
-all.file = list.files("./rawdata/bbob/")
-
+all.file = list.files("./rawdata/bbob-singleRun/")
+algorithms.bbob <- c("CMAES",     "DE"    ,    "ga100"   ,  "hill"  ,    "HMLSL"  , "IPOP-tany",
+                      "IPOP-texp", "P-DCN"  ,   "simplex")
 for(alg in 1:length(algorithms.bbob)){
       
         data.list =  all.file[grep(algorithms.bbob[alg], all.file)]
-        pdfname = paste("./bbob/","log_X_",algorithms.bbob[alg], ".pdf", sep = "")
+        pdfname = paste("./bbob/",algorithms.bbob[alg], ".pdf", sep = "")
         pdf(pdfname)
         par(mfrow = c(2,2) )
         for( j in 1:length(data.list)){
-                data.path = paste("./rawdata/bbob/", data.list[j], sep = "")
+                data.path = paste("./rawdata/bbob-singleRun/", data.list[j], sep = "")
                 data = read.csv(data.path)
                 plot(data$x, data$y, xlab = "FEs", log = "x", ylab = "Fitness Value", main = gsub(".csv", "", data.list[j]),
                      pch = 20, cex = 1, col = "blue")

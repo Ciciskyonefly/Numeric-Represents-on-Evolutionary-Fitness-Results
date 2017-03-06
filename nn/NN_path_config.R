@@ -15,10 +15,10 @@ NN_path_config <- function(problem){
     }
     
     if(grepl("bbob", problem)){
-        file.path = "./rawdata/bbob-log-y/"
-        save.path = "./modelresults/NN.bbob.pre/bbob-log-y/"
+        file.path = "./rawdata/multiple-run-dat/bbob-15-run-log-y/"
+        save.path = "./modelresults/NN.bbob.pre/bbob-15-run-log-y/"
         if(!file.exists(save.path)){
-            dir.create(save.path)
+            suppressWarnings(dir.create(save.path))
         }
     }
     

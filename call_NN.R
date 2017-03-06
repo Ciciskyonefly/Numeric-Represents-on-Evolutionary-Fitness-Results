@@ -1,6 +1,6 @@
 
 
-RunNN <- function(PRE_OR_NOT, problem = "maxsat", maxTr, maxTe,  iter = c(20), maxiter = c(50) ,hiddensize = c(6)){
+RunNN <- function(PRE_OR_NOT, problem = "maxsat", maxTr = c(50), maxTe = c(100),  iter = c(20), maxiter = c(50) ,hiddensize = c(6)){
     
     source("./problembased-funcs/nn_model_func.R")
     source("./nn/NN_path_config.R")

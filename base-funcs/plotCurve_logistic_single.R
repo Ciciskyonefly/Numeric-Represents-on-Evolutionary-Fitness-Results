@@ -1,46 +1,49 @@
 plotCurve_exp_3_single <- function(s, theta, index = nrow(s)){
+    
+    #library(ggplot2)
+    
+    
+    if(which(s$y <= 0) %>% length() != 0)  
+        s <- s[-which(s$y <= 0), ]
+    
+    x = s$x
+    y = s$y
+    
+    y1 = theta[1]+theta[2]/(1+exp(theta[3]*log(x)+theta[4]))
+    # if(is.infinite(y1) %>% which() %>% length() != 0) {
+    #         y1[is.infinite(y1) %>% which()] = 0
+    # }
+    # 
+    # print(y1)
+    #  if (index != nrow(s)) {
+    
+    plot.dataframe  <- data.frame(x[seq(index)], y[seq(index)])
+    names(plot.dataframe) <- c("plot.x", "plot.y")
+    
+    # p <- ggplot(plot.dataframe, aes(plot.x,plot.y)) +
+    #         geom_point(colour = "blue", stat = "identity") +
+    #         scale_x_log10() + scale_y_log10()
+    #       #  ylim(min(y), max(y))
+    
+    #log = "x",
+    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  ylab = "Objective Value", 
+         xlab = "FEs", pch = 20, cex = 1, col = "blue", log = "xy", 
+         ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
+    grid()
+    
+    
+    if(length(x[-seq(index)]) != 0){
+        plot.dataframe1  <- data.frame(x[-seq(index)], y[-seq(index)])
+        names(plot.dataframe1) <- c("x","y")
+        #p <- p + geom_point(plot.dataframe1, mapping = aes(plot.dataframe1$x, plot.dataframe1$y), colour = "red")
+        points(plot.dataframe1$x, plot.dataframe1$y, col = "red")
         
-        #library(ggplot2)
-        #1,1
-        x = s$x
-        y = s$y
-        
-        y1 = theta[1]+theta[2]/(1+exp(theta[3]*log(x)+theta[4]))
-        # if(is.infinite(y1) %>% which() %>% length() != 0) {
-        #         y1[is.infinite(y1) %>% which()] = 0
-        # }
-        # 
-        # print(y1)
-      #  if (index != nrow(s)) {
-                
-                plot.dataframe  <- data.frame(x[seq(index)], y[seq(index)])
-                names(plot.dataframe) <- c("plot.x", "plot.y")
-                
-                # p <- ggplot(plot.dataframe, aes(plot.x,plot.y)) +
-                #         geom_point(colour = "blue", stat = "identity") +
-                #         scale_x_log10() + scale_y_log10()
-                #       #  ylim(min(y), max(y))
-                
-               
-                plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "x", ylab = "Objective Value", 
-                     xlab = "FEs", pch = 20, cex = 1, col = "blue", 
-                     ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
-                grid()
-                
-                
-                if(length(x[-seq(index)]) != 0){
-                        plot.dataframe1  <- data.frame(x[-seq(index)], y[-seq(index)])
-                        names(plot.dataframe1) <- c("x","y")
-                        #p <- p + geom_point(plot.dataframe1, mapping = aes(plot.dataframe1$x, plot.dataframe1$y), colour = "red")
-                        points(plot.dataframe1$x, plot.dataframe1$y, col = "red")
-                        
-                }
-                
-                data.line = data.frame(x,y1)
-                # p <- p + geom_line (data.line, mapping = aes(x, y1), col = "green", size = 0.8)
-                # p <- p + Myggolot2.theme() + Myggolot2.label()
-                # p
-                lines(data.line$x, data.line$y1, col = "green", lwd = 2)
-          
+    }
+    
+    data.line = data.frame(x,y1)
+    # p <- p + geom_line (data.line, mapping = aes(x, y1), col = "green", size = 0.8)
+    # p <- p + Myggolot2.theme() + Myggolot2.label()
+    # p
+    lines(data.line$x, data.line$y1, col = "green", lwd = 2)
+    
 }      
-       

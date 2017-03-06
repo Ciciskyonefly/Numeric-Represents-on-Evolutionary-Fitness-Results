@@ -161,42 +161,43 @@ transferTspSingleRun <- function(){
   
 }
 
-
 transferBbob <- function(){
-  
-  library(dplyr)
-  file_path = "../BenchMarking/optimizationBenchmarkingDocu-master/examples/bbob/"
-  save_path = "./rawdata/bbob/"
-  TotalPath = file_path
-  #algorithms name
-  algorithm.listnames = TotalPath %>% list.files()
-  alg.list <- algorithm.listnames[-grep("\\.",algorithm.listnames)]
-  
-  alg.name.list <- do.call(rbind, strsplit(alg.list, "_"))[, 2]
-
-  for(alg in 1:length(alg.list)){
-    #function name
-    func.list <- paste(file_path, alg.list[alg], sep = "") %>% list.files()
-    func.list <- func.list[-grep("\\.",func.list)]
     
-    func = 1
-    for(func in 1:length(func.list)){
-      #DIM list
-      dat.list = paste(file_path, alg.list[alg], "/",func.list[func], sep = "") %>% list.files(pattern = ".*?\\.dat")
-      for(dat in 1:length(dat.list)){
-        filepath = paste(file_path, alg.list[alg], "/",func.list[func],"/", dat.list[dat], sep = "")
-        data = getTheMatrixData_BBOB(filepath)
-        save.datname = gsub("bbobexp_","", dat.list[dat]) 
+    library(dplyr)
+    file_path = "../bbob-benchmark/"
+    save_path = "../bbob-15-run/"
+    if(!file.exists(save_path)) suppressWarnings(dir.create(save_path))
+    TotalPath = file_path
+    #algorithms name
+    algorithm.listnames = TotalPath %>% list.files()
+    if(grep("\\.",algorithm.listnames) %>% length() != 0)
+        alg.list <- algorithm.listnames[-grep("\\.",algorithm.listnames)]
+    else
+        alg.list <- algorithm.listnames
+    
+    alg.name.list <- alg.list
+    # alg.name.list <- do.call(rbind, strsplit(alg.list, "_"))[, 2]
+    alg <- 1
+    for(alg in 1:length(alg.list)){
+        #function name
+        func.list <- paste(file_path, alg.list[alg], sep = "") %>% list.files()
+        func.list <- func.list[-grep("\\.",func.list)]
         
-        save.file = paste(save_path,
-                          alg.name.list[alg],"_",  gsub(".dat",".csv",save.datname), sep = "")
-        write.csv(data, file = save.file, row.names = FALSE)
-      }
+        func = 1
+        for(func in 1:length(func.list)){
+            #DIM list
+            dat.list = paste(file_path, alg.list[alg], "/",func.list[func], sep = "") %>% list.files(pattern = ".*?\\.dat")
+            dat <- 1
+            for(dat in 1:length(dat.list)){
+                filepath = paste(file_path, alg.list[alg], "/",func.list[func],"/", dat.list[dat], sep = "")
+                data = getTheMatrixData_BBOB_singleRun(filepath, 15, alg.name.list[alg], dat.list[dat], save_path)
+            }
+        }
+        
     }
-    
-  }
 }
-
 
 #ransferTspSingleRun()
 transferBbob()
+
+

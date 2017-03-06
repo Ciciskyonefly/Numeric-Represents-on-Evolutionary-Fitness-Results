@@ -99,6 +99,7 @@ LoadBbob <- function(file.path =  "./modelresults/LM.bbob.pre/100percentleft/10_
     data.matrix$func <- func
     
     dim <- do.call(rbind, strsplit(as.vector(data.matrix$instance_file), "/"))[, 3]
+    dim <- do.call(rbind, strsplit(as.vector(dim), "-"))[, 1]
     dim.level <- paste("DIM", str_extract_all(dim, "[0-9]+", simplify = TRUE) %>% unique %>% as.numeric %>% sort, sep = "")
     data.matrix$dim <- factor(dim, levels = dim.level, ordered = TRUE)
     

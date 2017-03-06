@@ -1,9 +1,0 @@
-"","10"
-"logisticModelpositive",1
-"logisticModelnegative",0
-"decayModelpositive",1
-"decayModelnegative",1
-"gompertzModelpositive",1
-"gompertzModelnegative",0.1937
-"expLinearModelpositive",1
-"expLinearModelnegative",1

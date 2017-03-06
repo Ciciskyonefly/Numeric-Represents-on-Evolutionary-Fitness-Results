@@ -87,6 +87,7 @@ NN.mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, maxite
             instance.alogorithm.name <- gsub("_", "/", instances.names[ins])
             instance.alogorithm.name <- gsub(".csv", "", instance.alogorithm.name)
             pathpath <- paste(rawdata.path, instances.names[ins], sep = "")
+            cat(pathpath, "\n")
        #     print(pathpath)
             #for train and prediction data.
             if(grepl("pre", PRE_OR_NOT)){

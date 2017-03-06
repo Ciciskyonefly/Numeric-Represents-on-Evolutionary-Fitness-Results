@@ -6,6 +6,10 @@ plotCurve_line_logy_logx3_single <- function(s, theta, index = nrow(s)){
     
     #library(ggplot2)
     #布局    
+    
+    if(which(s$y <= 0) %>% length() != 0)  
+        s <- s[-which(s$y <= 0), ]
+    
     x = s$x
     y = s$y
     
@@ -25,7 +29,7 @@ plotCurve_line_logy_logx3_single <- function(s, theta, index = nrow(s)){
     #         scale_x_log10() + scale_y_log10()
     #   #      ylim(min(y), max(y))
     
-    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "x", ylab = "Objective Value", 
+    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "xy", ylab = "Objective Value", 
          xlab = "FEs", pch = 20, cex = 1, col = "blue", 
          ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
     grid()

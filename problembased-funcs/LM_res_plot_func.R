@@ -77,9 +77,9 @@ plotbehavior_maxTrain_maxTest <- function(file, problem){
 
 
 library(dplyr)
-path <- "./modelresults/LM.bbob.pre/100percentleft/"
+path <- "./modelresults/LM.bbob.pre/bbob-15-run-log-y/"
 res.list <- list.files(path)
-res.list <- paste(path, res.list[grep("BL_.+.csv", res.list)], sep = "")
+res.list <- paste(path, res.list[grep("BL_.+csv", res.list)], sep = "")
 
 
 

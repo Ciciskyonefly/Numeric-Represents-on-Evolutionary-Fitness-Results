@@ -12,8 +12,8 @@ path_config <- function(problem){
         save.path = "./modelresults/LM.tsp.pre/singleRun/"
     }
     if(grepl("bbob", problem)){
-        file.path = "./rawdata/bbob/"
-        save.path = "./modelresults/LM.bbob.pre/100percentleft/"
+        file.path = "./rawdata/multiple-run-dat/bbob-15-run-log-y/"
+        save.path = "./modelresults/LM.bbob.pre/"
     }
     
     
