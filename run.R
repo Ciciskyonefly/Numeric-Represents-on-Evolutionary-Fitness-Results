@@ -17,12 +17,11 @@ maxTrain <- c(10, 50, 100)
 maxTest <- c(100)
 
 
-# RunLM(PRE_OR_NOT = "not", problem = "bbobs",  maxTr = maxTrain, maxTe = maxTest, list.model = list_model,
-#       method = "BL",
-#       iter = iter, option = "each")
+ RunLM(PRE_OR_NOT = "not", problem = "tsp",  maxTr = maxTrain, maxTe = maxTest, list.model = list_model,
+       method = "BL", iter = iter, option = "each")
 
 
-RunNN(PRE_OR_NOT = "not", problem = "bbob")
+#RunNN(PRE_OR_NOT = "not", problem = "bbob")
 
 end.time = Sys.time()
 

@@ -11,7 +11,6 @@ library(stringr)
 ###########################################################
 OrderAlgorithm <- function(unialgorithm){
         
-        
         unialgorithm <- sort(unialgorithm)
         unialgorithm.0b = unialgorithm[grep("0b",unialgorithm)]
         unialgorithm.0f = unialgorithm[grep("0f",unialgorithm)]
@@ -50,7 +49,6 @@ load <- function(file.path){
         #
         # Returns:
         #   A matrix that store the data we are going to use.
-        
         
         data.table = read.csv(file.path,header = TRUE,sep = ",")
         pre.length = nrow(data.table)
@@ -145,7 +143,7 @@ Analysis1 <- function(data.matrix,save.path = "./BenchMarking/modelresults/tsp.a
                         axis(1,1:nrow(tempMatrix),uni.algorithm)
                         axis(2)
                  #       titleString = paste(unidatafile[i],"_",colnames(tempMatrix)[k],sep = "")
-                  #      title(main = titleString,col.main = "RED" )
+                 #      title(main = titleString,col.main = "RED" )
                         box()
                         grid()
                         
@@ -282,21 +280,21 @@ Analysis3 <- function(data.matrix,save.path = "./BenchMarking/modelresults/tsp.a
                 for(k in 1:ncol(tempMatrix)){
                         print(exp.ylim[k, 2])
                         setEPS()
-                        names = paste("tsp_gompertModelpositive_size_",colnames(tempMatrix)[k],".eps",sep = "")
+                        names = paste("./analysis-compare/code-tsp-trend/tsp_gompertModelpositive_size_",colnames(tempMatrix)[k],".eps",sep = "")
                         postscript(names)
                         x = c(1:length(instanceSize))
                         y = tempMatrix[,k]
                         #
-                        plot(x, y, pch = 3, axes = FALSE, xlab = "", ylab = "", col = "red", ylim = exp.ylim[k, ], cex = 2, lwd = 2)
+                        plot(x, y, pch = 20, axes = FALSE, xlab = "", ylab = "", col = "red", ylim = exp.ylim[k, ], cex = 2, lwd = 2)
                        # axis(1,1:length(instanceSize),labels = instanceSize,las = 2, cex.lab = 1.1, cex.axis=1.1)
                         axis(1,1:length(instanceSize), labels = instanceSize, las = 2)
                         #text(x = c(1:length(instanceSize)), par("usr")[3] - 0.14*(exp.ylim[k, 2]-exp.ylim[k,1]), labels = instanceSize, srt = 60, xpd = TRUE, cex = 1.3)
                         axis(2, cex.lab = 1.3, cex.axis=1.5)
                         titleString = paste("Parameter ",toupper(colnames(tempMatrix)[k]),sep = "")
                         #titleString = paste(uni.algorithm,"_",toupper(colnames(tempMatrix)[k]),sep = "")
-                     #   title(main = titleString, cex.main = 1.5 )
+                        # itle(main = titleString, cex.main = 1.5 )
                         box()
-                       grid(length(instanceSize)+2,col = "lightgray",lwd = 2)
+                        grid(length(instanceSize)+2,col = "lightgray",lwd = 2)
                         dev.off()
                 }
         }

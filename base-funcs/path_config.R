@@ -5,15 +5,21 @@ path_config <- function(problem){
     if(grepl("maxsat", problem)){
         file.path = "./rawdata/progress-of-future-predict-maxsat/"
         save.path = "./modelresults/LM.maxsat.pre/"
+        if(!file.exists(save.path))
+            suppressWarnings(dir.create(save.path))
     }
     
     if(grepl("tsp", problem)){
-        file.path = "./rawdata/tsp-singleRun/"
-        save.path = "./modelresults/LM.tsp.pre/singleRun/"
+        file.path = "./rawdata/tsp/"
+        save.path = "./modelresults/LM.tsp.pre/20-run/"
+        if(!file.exists(save.path))
+            suppressWarnings(dir.create(save.path))
     }
     if(grepl("bbob", problem)){
         file.path = "./rawdata/multiple-run-dat/bbob-15-run-log-y/"
         save.path = "./modelresults/LM.bbob.pre/"
+        if(!file.exists(save.path))
+            suppressWarnings(dir.create(save.path))
     }
     
     
