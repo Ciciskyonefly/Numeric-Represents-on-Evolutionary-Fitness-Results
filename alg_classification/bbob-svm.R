@@ -76,7 +76,6 @@ for(j in 1:2){
     linear.pre <- predict(svmLinear, mytest[, -ncol(mytest)])
     conf.matrix <- confusionMatrix(mytest$alg, linear.pre ) 
     print(conf.matrix)
-  #  print(svm.residuals)
     
     svm.residuals = svm.residuals + sum(diag(conf.matrix))/sum(conf.matrix)
     
