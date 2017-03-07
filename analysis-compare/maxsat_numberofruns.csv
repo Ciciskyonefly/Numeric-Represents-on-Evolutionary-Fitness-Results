@@ -1,7 +1,0 @@
-"","10","50","100","150","200","250"
-"logisticModelpositive",606,0,0,0,0,0
-"logisticModelnegative",606,0,0,0,0,0
-"decayModelpositive",603,3,0,0,0,0
-"decayModelnegative",603,0,0,1,0,2
-"expLinearModelpositive",599,6,0,0,1,0
-"expLinearModelnegative",83,73,60,95,136,159
