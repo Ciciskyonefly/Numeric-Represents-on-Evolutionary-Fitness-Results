@@ -27,7 +27,7 @@ plotCurve_exp_3_single <- function(s, theta, index = nrow(s)){
     
     #log = "x",
     plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  ylab = "Objective Value", 
-         xlab = "FEs", pch = 20, cex = 1, col = "blue", log = "xy", 
+         xlab = "FEs", pch = 20, cex = 1, col = "blue", log = "x", 
          ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
     grid()
     

@@ -26,10 +26,10 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
         #single
         if(grepl("pre", PRE_OR_NOT)){
             pdfname <- paste(save.path, cal.error.method, "_", maxTrain, "_", maxTest, "_log_",iter,"_",unlist(list_model)$name,".pdf",sep = "")
-            csv.name <-  paste(save.path, cal.error.method, "_", maxTrain, "_", maxTest, "_log_", iter, "_", unlist(list_model)$name,".pdf",sep = "")
+            csv.name <-  paste(save.path, cal.error.method, "_", maxTrain, "_", maxTest, "_log_", iter, "_", unlist(list_model)$name,".csv",sep = "")
         } else {
             pdfname <- paste(save.path, iter, "_", unlist(list_model)$name,".pdf",sep = "")
-            csv.name <- paste(save.path, iter, "_", unlist(list_model)$name,".pdf",sep = "")
+            csv.name <- paste(save.path, iter, "_", unlist(list_model)$name,".csv",sep = "")
         }
         
     } else {
@@ -42,14 +42,13 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
             csv.name <- paste(save.path, "log_", iter, "_all_model.csv", sep = "")
         }
     }
-    
+    cat("hello\n")
     pdf(pdfname)
     par(mfrow = c(2, 2))
     
     instances.names <- file.path %>% list.files()
     #list_plot <- list()
     ins <- 1
-    
     all.parameters <- NULL
     for(ins in 1:length(instances.names)){
         
@@ -57,13 +56,13 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
         instance.alogorithm.name <- gsub(".csv", "", instance.alogorithm.name)
         pathpath <- paste(file.path, instances.names[ins], sep = "")
         
-       #cat("pathpath: ", pathpath, "\n")
+   
         if(grepl("pre", PRE_OR_NOT)){
             
             all.raw.data <- read.csv(pathpath)
             
             #for train and prediction data.
-            # test data
+            #test data
             test.script <- which(all.raw.data$x <= maxTest)
             if(length(test.script) !=0){
                 raw.data <- all.raw.data[c(1: max(test.script)), ]
@@ -96,6 +95,7 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
         if(grepl("BL", cal.error.method)){
             p <- findBestFitting(train.data, xData, yData, globalmodels, iter)
         }
+        
         p$plotFunction(raw.data, p$par, sample.index) 
         title(main = instance.alogorithm.name)
         tmp.para <- cbind(instance.alogorithm.name, p$name, t(p$par), p$residual, deparse.level = 0)
@@ -103,10 +103,11 @@ mainfunc <- function(PRE_OR_NOT = "not", maxTrain = 50, maxTest = 100, iter, lis
         
     }
     
-    
+ 
+
     dev.off()
-    
-    
+    cat("sleep")
+    cat(csv.name, "\n")
     colnames(all.parameters) <- c("instance_file","model","a","b","c","d","residuals")
     write.csv(all.parameters, csv.name, row.names = FALSE, col.names = TRUE)
     

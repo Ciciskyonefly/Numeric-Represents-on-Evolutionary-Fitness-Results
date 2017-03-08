@@ -19,7 +19,7 @@ source("./base-funcs/models_func.R")
 
 
 #, expLinearModelpositive, logisticModelpositive, decayModelnegative)
-loc.path = "./modelresults/LM.bbob.pre/bbob-singleRun-log-y/BL_10_LGMP.csv"
+loc.path = "./modelresults/LM.bbob.pre/bbob-1-log-y/10_GPMP.csv"
 all.path <- loc.path %>% list.files()
 library(dplyr)
 dat <- LoadBbob(loc.path)
@@ -36,15 +36,15 @@ dat <- dat[-which(dat$a == 0)]
 
 
 classification.dat <- select(dat[ which(dat$func == "f1"), ], a, b, c, d, alg)
-classification.dat$a <- exp(classification.dat$a)
 classification.dat <- classification.dat[- which(classification.dat$alg == "IPOP"), ]
 classification.dat <- classification.dat[- which(classification.dat$alg == "IPOP-tany"), ]
-
-#classification.dat <- select(dat[c(CMASE.f10.sub, CMASE.f11.sub), ], a, b, c, d, func)
+classification.dat <- classification.dat[- which(classification.dat$alg == "IPOP-500"), ]
+classification.dat <- classification.dat[- which(classification.dat$alg == "IPOP-texp"), ]
 classification.dat$alg <- classification.dat$alg %>% droplevels() %>% as.numeric() %>% factor()
 
 traindata <- classification.dat
 svm.residuals = 0
+j = 1
 for(j in 1:2){
     
     train.index <- createDataPartition(traindata[, 1], p = 0.8, list = FALSE)
@@ -68,16 +68,16 @@ for(j in 1:2){
                        metric = "Accuracy",
                        method = "svmLinear",
                        #          preProc = c("center","scale"),
-                       num_class =  levels( classification.dat$alg) %>% length(),
+                       num_class = levels( classification.dat$alg) %>% length(),
                        trControl = ctrl,
-                       tuneGrid = linear.grid,
+                       stuneGrid = linear.grid,
                        verbose=TRUE
     )
     linear.pre <- predict(svmLinear, mytest[, -ncol(mytest)])
     conf.matrix <- confusionMatrix(mytest$alg, linear.pre ) 
-    print(conf.matrix)
+    print(conf.matrix$table)
     
-    svm.residuals = svm.residuals + sum(diag(conf.matrix))/sum(conf.matrix)
+    svm.residuals = svm.residuals + sum(diag(conf.matrix$table))/sum(conf.matrix$table)
     
 }
 

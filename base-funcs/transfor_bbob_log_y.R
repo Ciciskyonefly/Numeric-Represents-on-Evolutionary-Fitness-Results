@@ -11,7 +11,7 @@ transform_bbob_log_y_data <- function(file.path, save.path){
         if(which(raw.dat$y<=0) %>% length !=0){
             raw.dat <- raw.dat[-which(raw.dat$y<=0), ]
         }
-        y <- log10(raw.dat$y)
+        y <- log10(raw.dat$y + 1)
         x <- raw.dat$x
         transf.dat <- data.frame(x, y)
         if(which(is.infinite(y)) %>% length() != 0)
@@ -23,13 +23,26 @@ transform_bbob_log_y_data <- function(file.path, save.path){
 }
 
 
-
-# log_y_dat <- read.csv(paste(save.path, "CMAES_f5_DIM10.csv", sep = ""))
-# dat <- read.csv(paste(file.path, "CMAES_f5_DIM10.csv", sep = ""))
-file.path = "./rawdata/multiple-run-dat/bbob-15-run/"
-save.path = "./rawdata/multiple-run-dat/bbob-15-run-log-y/"
-if(!file.exists(save.path)){
-    dir.create(save.path)
+transform_bbob_log_y_1_data <- function(file.path , save.path){
+    if(!file.exists(save.path)){
+        dir.create(save.path)
+    }
+    file.list <- list.files(file.path)
+    
+    for(i in 1:length(file.list)){
+        file <- paste(file.path, file.list[i], sep = "")
+        dat <- read.csv(file)
+        dat$y <- log10(dat$y + 1)
+        save.file <- paste(save.file.path, file.list[i], sep = "")
+        write.csv(dat, save.file, row.names = FALSE)
+    }
+    
 }
 
+
+file.path = "./rawdata/bbob/"
+save.path = "./rawdata/bbob-1-log-y/"
+if(!file.exists(save.path)){
+   suppressWarnings(dir.create(save.path))
+}
 transform_bbob_log_y_data(file.path, save.path)

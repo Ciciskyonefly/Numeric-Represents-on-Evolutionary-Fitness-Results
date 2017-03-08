@@ -28,7 +28,7 @@ plotCurve_tweise_single <- function(s, theta, index = nrow(s)){
     #         scale_x_log10() + scale_y_log10()
     # p
     
-    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "xy", ylab = "Objective Value", 
+    plot(plot.dataframe$plot.x, plot.dataframe$plot.y,  log = "x", ylab = "Objective Value", 
          xlab = "FEs", pch = 20, cex = 1, col = "blue",
          ylim = c(min(y), max(y)), xlim = c(min(x), max(x)))
     grid()

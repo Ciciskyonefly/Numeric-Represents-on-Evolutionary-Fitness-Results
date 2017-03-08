@@ -16,8 +16,8 @@ path_config <- function(problem){
             suppressWarnings(dir.create(save.path))
     }
     if(grepl("bbob", problem)){
-        file.path = "./rawdata/multiple-run-dat/bbob-15-run-log-y/"
-        save.path = "./modelresults/LM.bbob.pre/"
+        file.path = "./rawdata/bbob-1-log-y-singleRun/"
+        save.path = "./modelresults/LM.bbob.pre/bbob-1-log-y/"
         if(!file.exists(save.path))
             suppressWarnings(dir.create(save.path))
     }
